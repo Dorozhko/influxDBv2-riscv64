@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+HTTP_BIND="$(snapctl get http-bind 2>/dev/null || echo ":8086")"
+
+case "$HTTP_BIND" in
+    :[0-9]*)
+        ;;
+    *)
+        echo "Invalid http-bind value: $HTTP_BIND" >&2
+        exit 1
+        ;;
+esac
+
+snapctl restart "$SNAP_INSTANCE_NAME.influxdb"
+
+exit 0

@@ -1,0 +1,95 @@
+name: influxdb2
+
+base: core24
+version: "2.9.1"
+
+summary: InfluxDB OSS 2.9.1 RISC-V
+description: |
+  InfluxDB OSS 2.9.1 packaged as a native strict Snap.
+  Supports runtime configuration using snap set.
+
+grade: stable
+confinement: strict
+license: MIT
+
+
+platforms:
+  riscv64:
+    build-on:
+      - arm64
+    build-for:
+      - riscv64
+
+apps:
+  influxdb:
+    command: bin/influxdb-wrapper
+    daemon: simple
+    restart-condition: always
+    stop-mode: sigterm
+
+    plugs:
+      - network
+      - network-bind
+      - removable-media
+
+  status:
+    command: bin/influxdb-status
+
+environment:
+  HOME: $SNAP_COMMON
+  LANG: C.UTF-8
+  LC_ALL: C.UTF-8
+
+parts:
+  influxdb:
+    plugin: nil
+
+    build-environment:
+      - GOOS: linux
+      - GOARCH: riscv64
+      - CGO_ENABLED: "0"
+
+    override-build: |
+      set -eux
+
+      mkdir -p \
+        "$CRAFT_PART_INSTALL/bin" \
+        "$CRAFT_PART_INSTALL/meta/hooks" \
+        "$CRAFT_PART_INSTALL/local"
+
+      install -Dm755 \
+        "$CRAFT_PROJECT_DIR/influxdb/bin/linux/influxd" \
+        "$CRAFT_PART_INSTALL/bin/influxd"
+
+      install -Dm755 \
+        "$CRAFT_PROJECT_DIR/local/bin/influxdb-wrapper" \
+        "$CRAFT_PART_INSTALL/bin/influxdb-wrapper"
+
+      install -Dm755 \
+        "$CRAFT_PROJECT_DIR/local/bin/influxdb-status" \
+        "$CRAFT_PART_INSTALL/bin/influxdb-status"
+
+      install -Dm755 \
+        "$CRAFT_PROJECT_DIR/hooks/install" \
+        "$CRAFT_PART_INSTALL/meta/hooks/install"
+
+      install -Dm755 \
+        "$CRAFT_PROJECT_DIR/hooks/configure" \
+        "$CRAFT_PART_INSTALL/meta/hooks/configure"
+
+      if [ -d "$CRAFT_PROJECT_DIR/influxdb/ui" ]; then
+        mkdir -p "$CRAFT_PART_INSTALL/ui"
+        cp -a \
+          "$CRAFT_PROJECT_DIR/influxdb/ui/." \
+          "$CRAFT_PART_INSTALL/ui/"
+      fi
+
+      cp -a \
+        "$CRAFT_PROJECT_DIR/local/." \
+        "$CRAFT_PART_INSTALL/local/"
+
+    prime:
+      - bin/**
+      - meta/**
+      - local/**
+      - ui/**

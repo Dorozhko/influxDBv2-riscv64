@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+
+HTTP_BIND="$(snapctl get http-bind 2>/dev/null || echo ":8086")"
+
+mkdir -p "$SNAP_COMMON/engine"
+
+exec "$SNAP/bin/influxd" \
+  --http-bind-address="$HTTP_BIND" \
+  --engine-path="$SNAP_COMMON/engine" \
+  --bolt-path="$SNAP_COMMON/influxd.bolt" \
+  --sqlite-path="$SNAP_COMMON/influxd.sqlite" \
+  --reporting-disabled

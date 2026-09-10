@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+HTTP_BIND="$(snapctl get http-bind 2>/dev/null || echo ':8086')"
+
+ENGINE="$SNAP_COMMON/engine"
+BOLT="$SNAP_COMMON/influxd.bolt"
+SQLITE="$SNAP_COMMON/influxd.sqlite"
+
+echo "InfluxDB OSS Status"
+echo "==================="
+echo
+echo "HTTP bind : $HTTP_BIND"
+echo
+echo "Database:"
+echo "  Engine : $ENGINE"
+echo "  Bolt   : $BOLT"
+echo "  SQLite : $SQLITE"
+
+exit 0

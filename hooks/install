@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+snapctl set http-bind=":8086"
+
+mkdir -p "$SNAP_COMMON/engine"
+
+exit 0
