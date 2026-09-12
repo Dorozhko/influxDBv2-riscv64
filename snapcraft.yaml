@@ -3,7 +3,7 @@ name: influxdb
 base: core24
 version: "2.9.1"
 
-summary: InfluxDB OSS 2.9.1 RISC-V
+summary: InfluxDB OSS 2.9.1
 description: |
   InfluxDB OSS 2.9.1 packaged as a native strict Snap.
   Supports runtime configuration using snap set.
@@ -18,6 +18,7 @@ platforms:
     build-on:
       - arm64
     build-for:
+      - arm64
       - riscv64
 
 apps:
