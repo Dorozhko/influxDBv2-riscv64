@@ -1,4 +1,4 @@
-name: influxdb2
+name: influxdb
 
 base: core24
 version: "2.9.1"
@@ -57,9 +57,11 @@ parts:
         "$CRAFT_PART_INSTALL/meta/hooks" \
         "$CRAFT_PART_INSTALL/local"
 
-      install -Dm755 \
-        "$CRAFT_PROJECT_DIR/influxdb/bin/linux/influxd" \
-        "$CRAFT_PART_INSTALL/bin/influxd"
+      curl -L \
+        "https://github.com/Dorozhko/influxDBv2-riscv64/releases/download/v2.9.1-riscv64/influxd" \
+        -o "$CRAFT_PART_INSTALL/bin/influxd"
+
+      chmod 755 "$CRAFT_PART_INSTALL/bin/influxd"
 
       install -Dm755 \
         "$CRAFT_PROJECT_DIR/local/bin/influxdb-wrapper" \
