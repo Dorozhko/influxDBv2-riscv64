@@ -18,7 +18,6 @@ platforms:
     build-on:
       - arm64
     build-for:
-      - arm64
       - riscv64
 
 apps:
