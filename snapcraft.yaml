@@ -43,7 +43,10 @@ environment:
 parts:
   influxdb:
     plugin: nil
-
+    
+    build-packages:
+      - curl
+      
     build-environment:
       - GOOS: linux
       - GOARCH: riscv64
