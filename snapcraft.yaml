@@ -1,7 +1,6 @@
 name: influxdbv2
 
 base: core24
-version: "2.9.1"
 
 summary: InfluxDB OSS 2.9.1
 description: |
