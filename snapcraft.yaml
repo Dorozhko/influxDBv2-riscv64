@@ -1,4 +1,4 @@
-name: influxdb
+name: influxdbv2
 
 base: core24
 version: "2.9.1"
